@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_normal"
+        android:title="正常"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_empty"
+        android:title="没内容"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_no_net"
+        android:title="没网络连接"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/menu_no_server"
+        android:title="服务不可用"
+        app:showAsAction="never"/>
+
+</menu>

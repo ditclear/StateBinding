@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="stateModel"
+            type="com.ditclear.app.StateModel"/>
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/rv_empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="@{stateModel.empty?View.VISIBLE:View.GONE}">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/none_data"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_centerInParent="true"
+                android:src="@{stateModel.emptyIconRes}"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/none_data"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:text="@{stateModel.currentStateLabel}"
+                android:textSize="16sp"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+</layout>
