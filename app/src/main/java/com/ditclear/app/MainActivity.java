@@ -10,8 +10,12 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ditclear.app.databinding.ActivityMainBinding;
+import com.ditclear.app.state.EmptyException;
+import com.ditclear.app.state.EmptyState;
+import com.ditclear.app.state.StateModel;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -46,19 +50,34 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 加载网络数据
+     *
+     * @return
+     */
     private Observable<List<Contributor>> loadData() {
         return GitHubFactory.getInstance()
                 .create(GitHub.class)
                 .contributors("square", "retrofit")
-                .compose(RxUtil.<List<Contributor>>normalSchedulers(mStateModel));
+                .delay(2, TimeUnit.SECONDS)
+                .compose(RxUtil.<List<Contributor>>normalSchedulers());
 
     }
 
     private void sub(Observable<List<Contributor>> observable) {
-        observable.subscribe(new Subscriber<List<Contributor>>() {
+
+        loadData().subscribe(new Subscriber<List<Contributor>>() {
+
+            @Override
+            public void onStart() {
+                super.onStart();
+                if (!mMainBinding.refreshLayout.isRefreshing()) {
+                    mStateModel.setEmptyState(EmptyState.PROGRESS);
+                }
+            }
+
             @Override
             public void onCompleted() {
-                mMainBinding.refreshLayout.setRefreshing(false);
                 mStateModel.setEmptyState(EmptyState.NORMAL);
 
             }
@@ -74,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onNext(List<Contributor> contributors) {
+                mMainBinding.refreshLayout.setRefreshing(false);
                 if (contributors == null || contributors.isEmpty()) {
                     onError(new EmptyException(EmptyState.EMPTY));
                 } else {
@@ -91,11 +111,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (!mMainBinding.refreshLayout.isRefreshing()) {
-            mMainBinding.refreshLayout.setRefreshing(true);
-        }
+
         switch (item.getItemId()) {
-            case R.id.menu_normal:
+            case R.id.menu_progress:
                 mListObservable = loadData();
                 break;
             case R.id.menu_empty:

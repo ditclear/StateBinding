@@ -1,10 +1,13 @@
-package com.ditclear.app;
+package com.ditclear.app.state;
 
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+
+import com.ditclear.app.MyApp;
+import com.ditclear.app.R;
 
 /**
  * 页面描述：状态页面设置模型
@@ -36,6 +39,15 @@ public class StateModel extends BaseObservable {
     }
 
     /**
+     * 显示进度条
+     *
+     * @return
+     */
+    public boolean isProgress() {
+        return this.emptyState == EmptyState.PROGRESS;
+    }
+
+    /**
      * 根据异常显示状态
      *
      * @param e
@@ -54,7 +66,7 @@ public class StateModel extends BaseObservable {
     }
 
     /**
-     * 获取空状态
+     * 空状态信息
      *
      * @return
      */
@@ -73,6 +85,11 @@ public class StateModel extends BaseObservable {
         }
     }
 
+    /**
+     * 空状态图片
+     *
+     * @return
+     */
     @Bindable
     public Drawable getEmptyIconRes() {
         switch (emptyState) {

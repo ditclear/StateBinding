@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
     <data>
 
@@ -7,38 +8,51 @@
 
         <variable
             name="stateModel"
-            type="com.ditclear.app.StateModel"/>
+            type="com.ditclear.app.state.StateModel"/>
     </data>
 
     <RelativeLayout
         android:id="@+id/rv_empty_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/background"
+        android:clickable="true"
+        android:focusableInTouchMode="true"
         android:visibility="@{stateModel.empty?View.VISIBLE:View.GONE}">
 
-
-        <LinearLayout
+        <android.support.v4.widget.ContentLoadingProgressBar
+            style="?android:attr/progressBarStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:visibility="@{stateModel.progress?View.VISIBLE:View.GONE}"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:gravity="center"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="@{stateModel.progress?View.INVISIBLE:View.VISIBLE}">
 
             <ImageView
                 android:id="@+id/none_data"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_centerInParent="true"
+                android:layout_width="345dp"
+                android:layout_height="180dp"
+                android:scaleType="fitCenter"
                 android:src="@{stateModel.emptyIconRes}"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_below="@+id/none_data"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
                 android:text="@{stateModel.currentStateLabel}"
                 android:textSize="16sp"/>
+
 
         </LinearLayout>
     </RelativeLayout>

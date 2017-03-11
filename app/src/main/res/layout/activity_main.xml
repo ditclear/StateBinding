@@ -8,7 +8,7 @@
 
         <variable
             name="stateModel"
-            type="com.ditclear.app.StateModel"/>
+            type="com.ditclear.app.state.StateModel"/>
 
         <variable
             name="adapter"
