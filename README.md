@@ -1,6 +1,8 @@
 # StateBinding
 
-#### 使用DataBinding来为android设置状态信息
+#### 使用DataBinding来为android设置状态信息  
+
+简书：[http://www.jianshu.com/p/276c8aa80f20](http://www.jianshu.com/p/276c8aa80f20)
 
 ![enframe_2017-03-11-17-03-15.png](http://upload-images.jianshu.io/upload_images/3722695-c6e983b74e962283.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/250)![enframe_2017-03-11-17-03-49.png](http://upload-images.jianshu.io/upload_images/3722695-647a1a2a7ead52f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/250)![enframe_2017-03-11-17-03-57.png](http://upload-images.jianshu.io/upload_images/3722695-eb885266b5121a2b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/250)![enframe_2017-03-11-17-04-05.png](http://upload-images.jianshu.io/upload_images/3722695-453a58044ec60ed9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/250)
 ![enframe_2017-03-11-17-26-51.png](http://upload-images.jianshu.io/upload_images/3722695-47f42990dcdf0c83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/250)
