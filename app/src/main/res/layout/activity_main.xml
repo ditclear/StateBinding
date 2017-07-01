@@ -7,48 +7,42 @@
         <import type="android.view.View"/>
 
         <variable
-            name="stateModel"
-            type="com.ditclear.app.state.StateModel"/>
+                name="stateModel"
+                type="com.ditclear.app.state.StateModel"/>
 
         <variable
-            name="adapter"
-            type="android.support.v7.widget.RecyclerView.Adapter"/>
+                name="adapter"
+                type="android.support.v7.widget.RecyclerView.Adapter"/>
 
     </data>
 
-    <com.ditclear.app.ScrollChildSwipeRefreshLayout
-        android:id="@+id/refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <RelativeLayout
+    <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
 
-            <android.support.v4.widget.NestedScrollView
+        <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fillViewport="false"
                 android:overScrollMode="always"
                 android:visibility="@{stateModel.empty?View.GONE:View.VISIBLE}">
 
-                <TextView
+            <TextView
                     android:id="@+id/content_tv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"/>
 
 
-            </android.support.v4.widget.NestedScrollView>
+        </android.support.v4.widget.NestedScrollView>
 
 
-            <include
+        <include
                 layout="@layout/widget_layout_empty"
                 app:stateModel="@{stateModel}"/>
 
-        </RelativeLayout>
-    </com.ditclear.app.ScrollChildSwipeRefreshLayout>
+    </FrameLayout>
 </layout>

@@ -9,6 +9,10 @@ import android.support.v4.content.ContextCompat;
 import com.ditclear.app.MyApp;
 import com.ditclear.app.R;
 
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
 /**
  * 页面描述：状态页面设置模型
  * <p>
@@ -22,7 +26,7 @@ public class StateModel extends BaseObservable {
     @EmptyState
     private int emptyState = EmptyState.NORMAL;
 
-    private boolean empty;
+    private CallBack mCallBack;
 
     public int getEmptyState() {
         return emptyState;
@@ -30,45 +34,83 @@ public class StateModel extends BaseObservable {
 
     /**
      * 设置状态
-     *
-     * @param emptyState
      */
     public void setEmptyState(@EmptyState int emptyState) {
         this.emptyState = emptyState;
         notifyChange();
     }
 
+
+    /**
+     * 根据异常显示状态
+     */
+    public void bindThrowable(Throwable e) {
+        bindThrowable(e, true);
+    }
+
+    /**
+     * 提示异常错误
+     *
+     * @param e            异常信息
+     * @param showNetError 是否显示除空数据异常的其它信息
+     */
+    public void bindThrowable(Throwable e, boolean showNetError) {
+
+        if (e instanceof EmptyException) {
+            if (((EmptyException) e).getCode() == EmptyState.NET_ERROR) {
+                bindThrowable(new ConnectException());
+            } else {
+                setEmptyState(((EmptyException) e).getCode());
+            }
+        } else if (e instanceof SocketTimeoutException) {
+            if (mCallBack != null) {
+                mCallBack.onFailure(new Throwable("网络连接超时"));
+            }
+        } else if (e instanceof UnknownHostException || e instanceof ConnectException) {
+            //网络未连接
+            if (mCallBack != null) {
+                mCallBack.onFailure(new Throwable("网络未连接"));
+            }
+            if (showNetError) {
+                setEmptyState(EmptyState.NET_ERROR);
+            }
+        } else {
+            if (mCallBack != null) {
+                mCallBack.onFailure(e);
+            }
+        }
+
+    }
+
+    public void reload() {
+        if (mCallBack != null) {
+            mCallBack.onReload();
+        }
+    }
+
     /**
      * 显示进度条
-     *
-     * @return
      */
     public boolean isProgress() {
         return this.emptyState == EmptyState.PROGRESS;
     }
 
     /**
-     * 根据异常显示状态
-     *
-     * @param e
+     * 显示重新加载
      */
-    public void bindThrowable(Throwable e) {
-        if (e instanceof EmptyException) {
-            @EmptyState
-            int code = ((EmptyException) e).getCode();
-
-            setEmptyState(code);
-        }
+    public boolean isNetError() {
+        return this.emptyState == EmptyState.NET_ERROR;
     }
 
+    /**
+     * 显示空视图
+     */
     public boolean isEmpty() {
         return this.emptyState != EmptyState.NORMAL;
     }
 
     /**
      * 空状态信息
-     *
-     * @return
      */
     @Bindable
     public String getCurrentStateLabel() {
@@ -76,32 +118,43 @@ public class StateModel extends BaseObservable {
         switch (emptyState) {
             case EmptyState.EMPTY:
                 return mContext.getString(R.string.no_data);
-            case EmptyState.NET_ERROR:
-                return mContext.getString(R.string.please_check_net_state);
             case EmptyState.NOT_AVAILABLE:
                 return mContext.getString(R.string.server_not_avaliabe);
             default:
-                return mContext.getString(R.string.no_data);
+                return "";
         }
     }
 
     /**
      * 空状态图片
-     *
-     * @return
      */
     @Bindable
     public Drawable getEmptyIconRes() {
         switch (emptyState) {
             case EmptyState.EMPTY:
-                return ContextCompat.getDrawable(mContext, R.drawable.ic_visibility_off_green_400_48dp);
-            case EmptyState.NET_ERROR:
-                return ContextCompat.getDrawable(mContext, R.drawable.ic_signal_wifi_off_green_400_48dp);
+                return ContextCompat.getDrawable(mContext,
+                        R.drawable.ic_visibility_off_green_400_48dp);
             case EmptyState.NOT_AVAILABLE:
                 return ContextCompat.getDrawable(mContext, R.drawable.ic_cloud_off_green_400_48dp);
             default:
-                return ContextCompat.getDrawable(mContext, R.drawable.ic_visibility_off_green_400_48dp);
+                return null;
         }
+    }
+
+    public void attach(CallBack callBack) {
+        mCallBack = callBack;
+    }
+
+    public void detach() {
+        this.mCallBack = null;
+    }
+
+    public interface CallBack {
+        //失败
+        public void onFailure(Throwable e);
+
+        //重新加载
+        public void onReload();
     }
 
 }

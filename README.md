@@ -303,12 +303,8 @@ public class StateModel extends BaseObservable {
 
     </data>
 
-    <com.ditclear.app.ScrollChildSwipeRefreshLayout
-        android:id="@+id/refresh_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <RelativeLayout
+        <FrameLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -336,49 +332,44 @@ public class StateModel extends BaseObservable {
                 layout="@layout/widget_layout_empty"
                 app:stateModel="@{stateModel}"/>
 
-        </RelativeLayout>
-    </com.ditclear.app.ScrollChildSwipeRefreshLayout>
+        </FrameLayout>
 </layout>
 ```
 
 最后在`activity`或者`fragment`中我们只需要通过`state.bindThrowable()`和`state.setEmptyState()`方法便可以轻松设置各种各样的状态。
 
 ```java
-loadData().subscribe(new Subscriber<List<Contributor>>() {
+observable.subscribe(new Subscriber<List<Contributor>>() {
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        if (!mMainBinding.refreshLayout.isRefreshing()) {
-            mStateModel.setEmptyState(EmptyState.PROGRESS);
-        }
-    }
+            @Override
+            public void onStart() {
+                super.onStart();
+                mStateModel.setEmptyState(EmptyState.PROGRESS);
 
-    @Override
-    public void onCompleted() {
-        mStateModel.setEmptyState(EmptyState.NORMAL);
+            }
 
-    }
+            @Override
+            public void onCompleted() {
+                mStateModel.setEmptyState(EmptyState.NORMAL);
 
-    @Override
-    public void onError(Throwable e) {
-        mMainBinding.refreshLayout.setRefreshing(false);
-        mStateModel.bindThrowable(e);
-        Toast.makeText(MainActivity.this, mStateModel.getCurrentStateLabel(), Toast.LENGTH_SHORT).show();
+            }
 
+            @Override
+            public void onError(Throwable e) {
+                mStateModel.setEmptyState(EmptyState.NORMAL);
+                mStateModel.bindThrowable(e);
+            }
 
-    }
-
-    @Override
-    public void onNext(List<Contributor> contributors) {
-        mMainBinding.refreshLayout.setRefreshing(false);
-        if (contributors == null || contributors.isEmpty()) {
-            onError(new EmptyException(EmptyState.EMPTY));
-        } else {
-            mMainBinding.contentTv.setText(contributors.toString());
-        }
-    }
-});
+            @Override
+            public void onNext(List<Contributor> contributors) {
+                mStateModel.setEmptyState(EmptyState.NORMAL);
+                if (contributors == null || contributors.isEmpty()) {
+                    onError(new EmptyException(EmptyState.EMPTY));
+                } else {
+                    mBinding.contentTv.setText(contributors.toString());
+                }
+            }
+        });
 ```
 
 #### 写在最后
