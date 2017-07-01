@@ -4,6 +4,8 @@
 
 简书：[http://www.jianshu.com/p/276c8aa80f20](http://www.jianshu.com/p/276c8aa80f20)
 
+第二篇:[使用DataBinding来设置空状态(二)-重新加载](https://github.com/ditclear/StateBinding/blob/master/%E4%BD%BF%E7%94%A8DataBinding%E6%9D%A5%E8%AE%BE%E7%BD%AE%E7%A9%BA%E7%8A%B6%E6%80%81(%E4%BA%8C)-%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BD.md)
+
 ![enframe_2017-03-11-17-03-15.png](http://upload-images.jianshu.io/upload_images/3722695-c6e983b74e962283.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/250)![enframe_2017-03-11-17-03-49.png](http://upload-images.jianshu.io/upload_images/3722695-647a1a2a7ead52f0.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/250)![enframe_2017-03-11-17-03-57.png](http://upload-images.jianshu.io/upload_images/3722695-eb885266b5121a2b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/250)![enframe_2017-03-11-17-04-05.png](http://upload-images.jianshu.io/upload_images/3722695-453a58044ec60ed9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/250)
 ![enframe_2017-03-11-17-26-51.png](http://upload-images.jianshu.io/upload_images/3722695-47f42990dcdf0c83.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/250)
 
