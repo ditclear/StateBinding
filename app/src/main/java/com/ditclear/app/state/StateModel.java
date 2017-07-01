@@ -82,6 +82,7 @@ public class StateModel extends BaseObservable {
 
     }
 
+    //重新加载
     public void reload() {
         if (mCallBack != null) {
             mCallBack.onReload();

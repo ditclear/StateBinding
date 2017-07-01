@@ -28,9 +28,10 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
         mBinding = DataBindingUtil.setContentView(this, getLayoutId());
         mStateModel = new StateModel();
         mStateModel.attach(this);
-        initView();
-        initEvent();
-        loadData(true);
+
+        initView();//初始化view
+        initEvent();//处理事件
+        loadData(true);//加载数据
     }
 
     protected abstract void initView();
@@ -40,6 +41,7 @@ public abstract class BaseActivity<VB extends ViewDataBinding> extends AppCompat
     protected abstract void loadData(boolean isRefresh);
 
     @LayoutRes
+    //返回布局id
     protected abstract int getLayoutId();
 
     @Override
